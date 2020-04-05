@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="{% static 'app/style/main.css' %}">
+	<link rel="shortcut icon" href="" type="image/x-icon">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<title>Rohan Gautam</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a href="" class="navbar-brand">
+				<img class="rounded-circle account-img" src="" height="30">
+			</a>
+			<a href="{" class="nav-item nav-link" style="color:white">Random Wesite</a>
+			<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+
+				<div class="navbar-nav ml-auto">
+					{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+					<a href="{% url 'log-out' %}" class="nav-item nav-link">Logout</a>
+					<a href="" class="nav-item nav-link">Contact</a>
+					{% else %}
+					<a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
+					<a href="{% url 'log-in' %}" class="nav-item nav-link">Login</a>
+					<a href="" class="nav-item nav-link">Contact</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- The social media icon bar -->
+
+	<br><br><br>
+	<!-- Load font awesome icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+	<main  class="container">
+		{% if messages %}
+		{% for msg in messages %}
+		<div class="alert alert-{{ msg.tags }}">
+			{{msg}}
+		</div>
+		{% endfor %}
+		{% endif %}
+
+		{% block content %}
+
+		{% endblock %}
+
+	</main>
+	<div class="icon-bar">
+		<a href="https://github.com/rohangautam09" class="github"><i class="fa fa-github"></i></a>
+		<a href="https://www.linkedin.com/in/rohangautam09/" class="linkedin"><i class="fa fa-linkedin"></i></a>
+		<a href="https://www.instagram.com/rohan_gautam/" class="instagram"><i class="fa fa-instagram"></i></a>
+	</div>
+	<br><br><br><br>
+	<footer>
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom" style="min-height: 20px;">
+			<div class="container">
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<p class="navbar-nav ml-auto" style="color:white;">© Rohan Gautam {% now "Y"%}</p>
+				</div>
+			</div>
+		</nav>
+	</footer>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

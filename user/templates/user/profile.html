@@ -1,0 +1,35 @@
+{% extends 'app/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<br><br>
+<div class="container w-75 p-5 bg-light text-dark">
+	<div class="container">
+		<div class="row my-2">
+			<div class="col-lg-8 order-lg-2">
+				<div class="tab-content py-4">
+					<div class="">
+						<div class="media-body">
+							<h2 class="account-heading">{{ user.username }}</h2>
+							<p class="text-secondary">{{ user.email }}</p>
+						</div>
+						<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						{{u_form|crispy}}
+						{{p_form|crispy}}
+						<button class="btn btn-dark" type="submit">Update</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 order-lg-1 text-center">
+				{% if user.profile.image %}
+				<img src="{{user.profile.image.url}}" class="mx-auto img-fluid img-circle d-block">
+				{% else %}
+				<img src="{% static 'app/images/default.jpg' %}" class="mx-auto img-fluid img-circle d-block">
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
