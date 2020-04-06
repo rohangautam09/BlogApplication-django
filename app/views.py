@@ -1,9 +1,104 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth 
+from .models import Post
+#for class based view **Very Important
+from django.views.generic import ListView,DetailView,CreateView
+from .forms import PostForm
+#to use the url name
+from django.urls import reverse_lazy
 
 def home(request):
-	return render(request,'app/home.html')
+		return render(request,'app/home.html',{'post':Post.objects.all()})
+
+'''
+def addblog(request):
+	if request.method == 'POST':
+		form = PostForm(request.POST,request.FILES)
+		if form.is_valid():
+			form.save()
+			return redirect('home')
+	else:
+		form = PostForm()
+	return render(request,'app/addblog.html',{'form':form})
+
+'''
+
+class PostListView(ListView):
+	model = Post
+	# page djago looking for now has syntax app/model_viewtype.html
+	# in this case app/post_list.html
+	template_name = 'app/home.html'
+	# to show model stuff on page
+	context_object_name = 'post' 
+
+
+#This is class based way of doint the view details thing
+class PostDetailView(DetailView):
+	model = Post
+	template_name = 'app/viewpost.html'
+
+
+class PostCreateView(CreateView):
+	form_class = PostForm
+	#template_name = 'app/createpost.html'
+	#fields = ['title','content','pic']
+	template_name = 'app/post_form.html'
+	success_url = reverse_lazy('home')
+
+
+
+	#validating form form without mentioning the author
+	def form_valid(self,form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
+
+
+
+#This is function way of doing the view post thing
+def viewpost(request,post_id):
+	post = get_object_or_404(Post,pk=post_id)
+	return render(request,'app/viewpost.html',{'post':post})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NOT NEEDED FOR NOW
+
+
 
 def signup(request):
 	if request.method == 'POST':

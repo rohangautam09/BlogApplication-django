@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<br><br>
+<div class="card mb-3">
+	<img class="card-img-top" src="{{object.pic.url}}" alt="Card image cap" height="500">
+	<div class="card-body">
+		<h5 class="card-title">{{object.title}}</h5>
+		<p class="card-text">{{object.content}}</p>
+		<p class="card-text"><small class="text-muted">By : {{object.author}}</small>&emsp;
+		<img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" height="30"></p>
+		<p class="card-text"><small class="text-muted">{{object.date_objected}}</small></p>
+	</div>
+</div>
+{% endblock %}
