@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <br><br>
-<h1>Class based View</h1>
+
 <div class="container w-75 p-5 bg-light text-dark">
 <h3>Create Post</h3>
 <hr>
@@ -10,7 +10,7 @@
 {% csrf_token %}
 {{form|crispy}}
 <br>
-<button type="submit" class="btn btn-dark">Post</button>
+<button type="submit" class="btn btn-dark">Update</button>
 </form>
 <hr>
 

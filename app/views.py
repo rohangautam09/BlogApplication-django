@@ -3,10 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib import auth 
 from .models import Post
 #for class based view **Very Important
-from django.views.generic import ListView,DetailView,CreateView
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .forms import PostForm
 #to use the url name
 from django.urls import reverse_lazy
+#so that only the user logged in can make changes
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 def home(request):
 		return render(request,'app/home.html',{'post':Post.objects.all()})
@@ -32,6 +34,21 @@ class PostListView(ListView):
 	# to show model stuff on page
 	context_object_name = 'post' 
 
+class PostDeleteView(UserPassesTestMixin,DeleteView):
+	model = Post
+	# page djago looking for now has syntax app/model_viewtype.html
+	# in this case app/post_list.html
+	template_name = 'app/deletepost.html'
+	# to show model stuff on page
+	#context_object_name = 'post'
+	success_url = reverse_lazy('home') 
+
+	def test_func(self):
+		post = self.get_object()
+		if self.request.user == post.author:
+			return True
+		return False 
+
 
 #This is class based way of doint the view details thing
 class PostDetailView(DetailView):
@@ -46,12 +63,31 @@ class PostCreateView(CreateView):
 	template_name = 'app/post_form.html'
 	success_url = reverse_lazy('home')
 
+	#validating form form without mentioning the author
+	def form_valid(self,form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
+
+class PostUpdateView(UserPassesTestMixin,UpdateView):
+	model = Post
+	form_class = PostForm
+	#template_name = 'app/createpost.html'
+	#fields = ['title','content','pic']
+	#template_name = 'app/post_form.html'
+	success_url = reverse_lazy('home')
 
 	#validating form form without mentioning the author
 	def form_valid(self,form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
+
+	#method to make sure the user is looged in to make amends
+	def test_func(self):
+		post = self.get_object()
+		if self.request.user == post.author:
+			return True
+		return False 
 
 
 
